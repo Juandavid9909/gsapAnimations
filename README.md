@@ -40,3 +40,139 @@ gsap.to(".card", {
   },
 });
 ```
+
+## Targeting
+
+Para seleccionar los elementos podemos hacerlo de muchas formas:
+
+```jsx
+// Clases
+<div class="box"></div>
+
+gsap.to(".box", {...});
+
+// ID
+<div id="hero"></div>
+
+gsap.to("#hero", {...});
+
+// Tipo de elemento (en este caso todos los botones)
+<button>Click Me</button>
+<button>Another Button</button>
+
+gsap.to("button", {...});
+
+// Múltiples selectores (modificar varios elementos a la vez)
+<div class="box"></div>
+<div class="circle"></div>
+
+gsap.to(".box, .circle", {...});
+
+// Hijos o elementos anidados
+<div class="card">
+  <img />
+  <div class="info">text</div>
+</div>
+
+gsap.to(".card img", {...});
+gsap.to(".card .info", {...});
+```
+
+### Reto
+
+Teniendo los siguientes elementos:
+
+```html
+<div class="circle"></div>
+<div id="square"></div>
+<div class="triangle"></div>
+```
+
+Hacer los siguientes Targetings
+
+```javascript
+// Seleccionar todos los elementos en 1 instrucción
+gsap.to(".circle, #square, .triangle", {});
+
+// Seleccionarlos por separado
+gsap.to(".circle", {});
+gsap.to("#square", {});
+gsap.to(".triangle", {});
+
+// Seleccionar elementos anidados
+gsap.to(".card .title", {});
+gsap.to(".card .description", {});
+```
+
+## Propiedades
+
+```javascript
+import gsap from "gsap";
+
+gsap.to(".box", {
+  background: "#FF6F61", // Color de fondo
+  borderRadius: "50%", // Porcentaje de redondez del elemento
+  delay: 2, // Tiempo de espera antes de que inicie la animación
+  duration: 0.5, // Duración de la animación en segundos
+  ease: "bounce", // Estilo de la animación
+  opacity: 1, // Opacidad que queremos darle al elemento (transparencia)
+  paused: true, // Pausar las animaciones
+  scale: 1.25, // Crecimiento (tanto positivo como negativo) del elemento
+  scaleX: 1.25, // Crecimiento en el eje X (tanto positivo como negativo) del elemento
+  scaleY: 1.25, // Crecimiento en el eje Y (tanto positivo como negativo) del elemento
+  stagger: 1, // Si tenemos varios elementos animandose podemos indicar cuántos queremos que se hagan a la vez
+  repeat: 2, // Cantidad de veces que queremos que se repita la animación (-1 es infinito)
+  repeatDelay: 2, // Tiempo de espera antes de que se repita la animación
+  rotation: 360, // Rotación en grados
+  rotationX: 360, // Rotación en el eje X
+  rotationY: 120, // Rotación en el eje Y
+  x: -200, // Posición en el eje X (positivo píxeles hacia la derecha, negativo hacia la izquierda)
+  y: -200, // Posición en el eje Y (positivo píxeles hacia abajo, negativo hacia arriba)
+  yoyo: true, // Revertirá la animación en cada repetición
+});
+```
+
+### ease
+
+| Valor          | Descripción                   |
+| -------------- | ----------------------------- |
+| `bounce`       | Rebote al final (lineal)      |
+| `power1.inOut` | Empieza lento y va acelerando |
+
+## Métodos
+
+Podemos hacer uso de métodos para ejecutar tareas muy específicas de nuestras animaciones:
+
+```javascript
+const animation = gsap.to(".box", {
+  borderRadius: "50%",
+  duration: 2,
+  opacity: 1,
+  rotation: 360,
+  scale: 1.25,
+});
+
+// Ejecutar la animación en el punto en el que está (si estaba en modo reverse irá en el sentido normal nuevamente)
+animation.play();
+
+// Pausar la animación
+animation.pause();
+
+// Continuar la animación en el punto en el que está, incluso cuando está en reverse
+animation.resume();
+
+// Reiniciar la animación desde el inicio
+animation.restart();
+
+// Revertir la animación
+animation.reverse();
+
+// Elimina por completo la animación, ya no se podrá ejecutar
+animation.kill();
+
+// Habilitar el yoyo para que se devuelva la animación en cada repetición
+animation.yoyo();
+
+// Cantidad de veces que queremos que se repita
+animation.repeat(2);
+```
