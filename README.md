@@ -134,10 +134,33 @@ gsap.to(".box", {
 
 ### ease
 
-| Valor          | Descripción                   |
-| -------------- | ----------------------------- |
-| `bounce`       | Rebote al final (lineal)      |
-| `power1.inOut` | Empieza lento y va acelerando |
+| Valor           | Descripción                                               |
+| --------------- | --------------------------------------------------------- |
+| `none`          | Ningún ease                                               |
+| `bounce`        | Rebote al final (lineal)                                  |
+| `power2.in`     | Empieza lento y termina rápido                            |
+| `power2.out`    | Empieza rápido y termina lento                            |
+| `power2.inOut`  | Lento - rápido - lento                                    |
+| `sine.in`       | Empieza lento, y va acelerando a una velocidad muy gentil |
+| `sine.out`      | Empieza rápido y baja la velocidad dee una forma suave    |
+| `sine.inOut`    | Lento - rápido - lento pero en un flujo muy natural       |
+| `back.in`       | Retrocede primero y luego avanza                          |
+| `back.out`      | Llega al destino y regresa                                |
+| `back.inOut`    | Combina ambos, retrocede, se sobrepasa y se queda         |
+| `back.out(2.5)` | Cuán dramático queremos nuestro bounce                    |
+
+Y hay 4 variaciones de las mismas:
+
+- **power1:** Gentil.
+- **power2:** Medio.
+- **power3:** Fuerte.
+- **power4:** Agresivo.
+
+#### Tips
+
+- Si necesitamos algo de retroalimentación rápida, usar `power1` o `power2`.
+- Si es un elemento principal de nuestra interfaz ingresando, usar `power3` o `power4`.
+- Para flujos naturales y balanceados, usar `power2.inOut`.
 
 ## Métodos
 

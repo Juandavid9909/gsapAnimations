@@ -1,0 +1,25 @@
+.demo {
+  flex-direction: column;
+  gap: 40px;
+}
+
+.btn {
+  width: 100px;
+  height: 100px;
+  background-color: #3498db;
+  border-radius: 50%;
+}
+
+.toast {
+  width: 100px;
+  height: 100px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+}
