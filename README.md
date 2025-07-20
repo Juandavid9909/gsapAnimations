@@ -134,20 +134,28 @@ gsap.to(".box", {
 
 ### ease
 
-| Valor           | Descripción                                               |
-| --------------- | --------------------------------------------------------- |
-| `none`          | Ningún ease                                               |
-| `bounce`        | Rebote al final (lineal)                                  |
-| `power2.in`     | Empieza lento y termina rápido                            |
-| `power2.out`    | Empieza rápido y termina lento                            |
-| `power2.inOut`  | Lento - rápido - lento                                    |
-| `sine.in`       | Empieza lento, y va acelerando a una velocidad muy gentil |
-| `sine.out`      | Empieza rápido y baja la velocidad dee una forma suave    |
-| `sine.inOut`    | Lento - rápido - lento pero en un flujo muy natural       |
-| `back.in`       | Retrocede primero y luego avanza                          |
-| `back.out`      | Llega al destino y regresa                                |
-| `back.inOut`    | Combina ambos, retrocede, se sobrepasa y se queda         |
-| `back.out(2.5)` | Cuán dramático queremos nuestro bounce                    |
+| Valor           | Descripción                                                             |
+| --------------- | ----------------------------------------------------------------------- |
+| `none`          | Ningún ease                                                             |
+| `bounce`        | Rebote al final (lineal)                                                |
+| `power2.in`     | Empieza lento y termina rápido                                          |
+| `power2.out`    | Empieza rápido y termina lento                                          |
+| `power2.inOut`  | Lento - rápido - lento                                                  |
+| `sine.in`       | Empieza lento, y va acelerando a una velocidad muy gentil               |
+| `sine.out`      | Empieza rápido y baja la velocidad dee una forma suave                  |
+| `sine.inOut`    | Lento - rápido - lento pero en un flujo muy natural                     |
+| `back.in`       | Retrocede primero y luego avanza                                        |
+| `back.out`      | Llega al destino y regresa                                              |
+| `back.inOut`    | Combina ambos, retrocede, se sobrepasa y se queda                       |
+| `back.out(2.5)` | Cuán dramático queremos nuestro bounce                                  |
+| `bounce.in`     | Rebota al inicio                                                        |
+| `bounce.out`    | Rebota cuando termina                                                   |
+| `bounce.inOut`  | Rebota al inicio y al final                                             |
+| `elastic.in`    | Movimiento gentil que es como si estuviera cargando, no rebota al final |
+| `elastic.out`   | Rebota al final de una forma muy suave y agradable                      |
+| `elastic.inOut` | Combinación de `in` y `out`                                             |
+| `expo.in`       | Empieza lento y acelera dramáticamente                                  |
+| `elastic.out`   | Empieza acelerado y desacelera drásticamente                            |
 
 Y hay 4 variaciones de las mismas:
 
