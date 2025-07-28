@@ -11,7 +11,7 @@ Hay 3 componentes clave para el diseño emocional:
 Se puede hacer por medio de CDN, pero también podemos hacer uso de `npm` para instalarlo:
 
 ```bash
-npm i gsap
+npm i gsap @gsap/react react-responsive
 ```
 
 # .to
