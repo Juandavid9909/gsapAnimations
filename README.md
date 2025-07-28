@@ -207,3 +207,234 @@ animation.yoyo();
 // Cantidad de veces que queremos que se repita
 animation.repeat(2);
 ```
+
+## Callbacks
+
+Cuando usamos el `.to` podemos usar callbacks para agregar más animaciones cuando se completa, reinicia e incluso actualiza una animación, algo como lo siguiente:
+
+```javascript
+import gsap from "gsap";
+
+const showToastLoop = () => {
+  gsap.to(".toast", {
+    duration: 0.8,
+    ease: "power4.out",
+    opacity: 1,
+    scale: 1,
+    y: -120,
+    onComplete: () => {
+      gsap.to(".toast", {
+        delay: 2.5,
+        duration: 0.7,
+        ease: "power2.in",
+        opacity: 0,
+        scale: 0.95,
+        y: 0,
+        onComplete: () => {
+          setTimeout(showToastLoop, 2500);
+        },
+      });
+    },
+  });
+};
+
+showToastLoop();
+```
+
+# .from
+
+Nos permite indicar el origen del elemento, y utilizará el estado actual como el estado final del mismo.
+
+```javascript
+gsap.from(".card", {
+  delay: 0.2,
+  duration: 0.6,
+  ease: "power4.out",
+  immediateRender: false, // Esperar a que la animación empiece para aplicar los valores
+  opacity: 0,
+  scale: 0.95,
+  stagger: 0.2, // Cuando hay varios elementos con la misma clase, agrega un delay para que se vea de forma secuencial
+  y: 60,
+});
+```
+
+# fromTo
+
+Es la combinación del `.from` con el `.to`, el primer parámetro es el elemento que queremos modificar, el segundo las propiedades que queremos aplicar con nuestro `.from`, y el último las propiedades para nuestro `.to`.
+
+```javascript
+import gsap from "gsap";
+
+const bars = document.querySelectorAll(".bar");
+
+bars.forEach((bar, index) => {
+  gsap.fromTo(
+    bar,
+    {
+      scaleY: 0.4,
+    },
+    {
+      delay: index * 0.1,
+      duration: 0.6,
+      ease: "sine.inOut",
+      repeat: -1,
+      scaleY: 1.6,
+      yoyo: true,
+    }
+  );
+});
+```
+
+# set
+
+Nos permite setear cómo queremos que se encuentre nuestro elemento para efectuar nuestra animación con `.to`.
+
+```javascript
+import gsap from "gsap";
+
+gsap.set(".gsap-box", {
+  opacity: 0,
+  scale: 0.5,
+  y: 100,
+});
+
+gsap.to(".gsap-box", {
+  delay: 0.5,
+  duration: 0.6,
+  ease: "expo.out",
+  opacity: 1,
+  scale: 1,
+  y: 0,
+});
+```
+
+# Timelines
+
+Nos permiten orquestar nuestras animaciones sin necesidad de usar callbacks, delays y demás, para crear un timeline podemos hacer algo como lo siguiente:
+
+```javascript
+import gsap from "gsap";
+
+const tl = gsap.timeline();
+
+tl.to(".box", { duration: 1, x: 200 });
+tl.to(".circle", { duration: 1, y: 100 });
+
+// Podemos usar también from y fromTo
+tl.from(".box", { duration: 1, opacity: 0 });
+tl.fromTo(".circle", { scale: 0 }, { duration: 1, scale: 1 });
+
+// Pausar
+tl.pause();
+
+// Revertir
+tl.reverse();
+
+// Reiniciar
+tl.restart();
+
+// Ejecutar
+tl.play();
+
+// También si queremos que nuestra animación inicie pausada en nuestro timeline podemos hacer lo siguiente
+const tl = gsap.timeline({ paused: true });
+```
+
+## Position parameter
+
+Nos permite pasar un tercer argumento a nuestro timeline para indicar en qué momento debe iniciar una animación (valor numérico para indicar en qué segundo debe iniciar).
+
+```javascript
+import gsap from "gsap";
+
+const tl = gsap.timeline();
+
+tl.to(".box", { duration: 1, x: 300 }, 0); // Inicia a los 0 segundos
+tl.to(".circle", { duration: 1, y: 300 }, 2); // Inicia a los 2 segundos
+```
+
+Pero adicional también podemos hacer que se aplique de forma calculada cuando finaliza una animación anterior:
+
+```javascript
+import gsap from "gsap";
+
+const tl = gsap.timeline();
+
+tl.to(".box", { duration: 1, x: 300 }).to(
+  ".circle",
+  { duration: 1, y: 300 },
+  "+=3"
+); // Inicia 3 segundos después de que finaliza la nimación de box
+
+// Si quisieramos que se ejecutara 3 segundos antes de que acabe la animación, podemos usar el valor -=3
+```
+
+### Relative to Others Param
+
+Podemos hacer uso de los operadores `>` y `<` para indicar si queremos que el cálculo se haga al inicio o la finalización de la animación previa. `>` inicia al final, y `<` al inicio de la animación anterior.
+
+```javascript
+import gsap from "gsap";
+
+const tl = gsap.timeline();
+
+tl.to(".box", { duration: 2, x: 300 }).to(
+  ".circle",
+  { duration: 1, y: 300 },
+  "<"
+); // Inicia al mismo tiempo que .box
+
+tl.to(".box", { duration: 2, x: 300 }).to(
+  ".circle",
+  { duration: 1, y: 300 },
+  ">"
+); // Inicia cuando termina .box
+```
+
+Si por ejemplo quisieramos que se ejecutara 0.5 segundos después de que la animación finaliza podemos usar `<+=0.5`. Adicional, también podemos usar porcentajes, por ejemplo para indicar que el círculo inicie un 25% antes de que box termine podemos usar `-=25%`, y para indicar que se ejecute al llevar 25% box `<25%`.
+
+## Stagger
+
+Aquí también podemos hacer uso de Stagger para dar un delay a los elementos (cuando tenemos varios) y que se vea más fluida la animación, similar a como lo hicimos en los ejemplos anteriores.
+
+# ScrollTrigger
+
+Esto nos permite activar animacinones dependiendo de las acciones de scroll que el usuario realice. A continuación un ejemplo:
+
+```jsx
+// HTML
+<section class="spacer">Scroll down to see the animation</section>
+
+<div class="box"></div>
+
+<section class="spacer">
+  Box moves when start hits the starter-marker
+</section>
+
+// JavaScript
+import gsap from "gsap";
+
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".box", {
+  x: 500,
+  rotate: 360,
+  duration: 3,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top center",
+    markers: true,
+  }
+});
+```
+
+El `trigger: ".box"` le dice al ScrollTriger que observe el elemento `.box` para decidir cuándo iniciar la animación. Para el `start: "top center"` significa que la animación debe iniciar cuando el inicio ('top') del elemento `.box` llegue a la mitad del viewport. Y por último, el `markers: true` mostrará unos pequeños markers a la derecha de la pantalla, así podemos saber exactamente dónde se hace el trigger de nuestro scroll. Es muy útil para hacer debug.
+
+Para la propiedad `start`, la primera parte se relaciona con el trigger del elemento (top, center, bottom), y la segunda parte con el viewport (top, center, bottom).
+
+También podemos usar la propiedad `end` para definir cuándo una animación debe finalizar. Importante tener en cuenta que si no agregamos la propiedad `end`, nuestra animación no sabrá cuándo debe terminar.
+
+Para el segundo parámetro que se pasa a estas funciones podemos usar porcentajes, como `end: bottom 20%` para indicar que finalice la animación cuando la parte de abajo del elemento alcance el 20% del inicio de nuestro viewport.
