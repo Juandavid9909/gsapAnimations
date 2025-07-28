@@ -438,3 +438,77 @@ Para la propiedad `start`, la primera parte se relaciona con el trigger del elem
 También podemos usar la propiedad `end` para definir cuándo una animación debe finalizar. Importante tener en cuenta que si no agregamos la propiedad `end`, nuestra animación no sabrá cuándo debe terminar.
 
 Para el segundo parámetro que se pasa a estas funciones podemos usar porcentajes, como `end: bottom 20%` para indicar que finalice la animación cuando la parte de abajo del elemento alcance el 20% del inicio de nuestro viewport.
+
+## Scrubbing
+
+Esto permite que nuestra animación se sincronice con el scroll que hacemos, es decir, si bajamos, nuestra animación avanza de forma suave, si subimos la animación se revierse (como si se devolviera) y se sincroniza perfectamente con nuestro scroll, sin lag ni delay. Para hacer esto sólo debemos agregar una simple propiedad a nuestra animación, y es `scrub: true`:
+
+```javascript
+gsap.to(".box", {
+  x: 500,
+  rotate: 360,
+  duration: 3,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top center",
+    markers: true,
+    scrub: true,
+  },
+});
+```
+
+Y si queremos que el desplazamiento sea aún más suave, se puede cambiar el `scrub` por un valor numérico para indicarle a GSAP que añada un efecto de suavizado en segundos, por ejemplo `scrub: 1.5`.
+
+```javascript
+gsap.to(".box", {
+  y: 200,
+  opacity: 0,
+  rotate: 360,
+  stagger: 0.2,
+  ease: "power1.inOut",
+  scrollTrigger: {
+    trigger: ".container",
+    start: "top center",
+    end: "bottom 20%",
+    scrub: 1.5,
+    markers: true,
+  },
+});
+```
+
+| Propiedad               | ¿Qué hace?                                                                                                                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `trigger: ".container"` | Le decimos a ScrollTrigger que vigile el elemento `.container` para decidir cuándo iniciar la animación.                                                                            |
+| `start: "top center"`   | Significa que la animación empezará cuando la parte superior del `.container` toque el centro de nuestro viewport.                                                                  |
+| `end: "bottom 20%"`     | Finalizará la animación cuando la parte inferior del `.container` toque el 20% desde la parte superior del viewport, dándonos una muy buena y grande área de scroll para jugar.     |
+| `scrub: 1.5`            | Hace que la animación entera progrese directamente con nuestro scroll, con un efecto suavizado de 1.5 segundos para que se sienta increíblemente suave.                             |
+| `makers: true`          | Se usan sólo para testing, y muestran dónde exactamente inicia y finaliza nuestra animación cuando hacemos scroll. Una vez hemos obtenido el resultado esperado, podemos removerlo. |
+
+Importante tener en cuenta que cuando usamos `scrub`, siempre necesitaremos definir nuestro valor `end` para el ScrollTrigger. Sin un `end`, no hay distancia de Scroll conocida por GSAP para definir la suavidad y demás.
+
+## Pinning
+
+Hacerle Pinning a un elemento significa que se quedará fijo en el viewport mientras nos desplazamos por él. Es como si estuviera anclado temporalmente antes de permitir que la página continúe.
+
+```jsx
+// HTML
+<section class="spacer">Scroll down to the pinned section</section>
+
+<section class="pin-section">
+  <h2>Pinned Content</h2>
+</section>
+
+<section class="spacer">Scroll back up to see the pin effect again</section>
+
+// JavaScript
+gsap.registerPlugin(ScrollTrigger);
+
+ScrollTrigger.create({
+  trigger: ".pin-container",
+  start: "top center",
+  end: "+=500",
+  pin: ".box",
+  markers: true,
+});
+```
